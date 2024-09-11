@@ -11,11 +11,19 @@ app = FastAPI()
 
 @asynccontextmanager
 async def get_db(app: FastAPI):
-    # await firebase_init()  # connect to be db
-    await config.init_db()
+
+    # Connect to Firebase...
+    # await firebase_init()
+
+    # Get DB Secrets...
+    settings = get_settings()
+    db_uri = settings.db_uri
+    db_name = settings.db_name
+
+    # Connect to Database...
+    await config.init_db(db_uri, db_name)
     print("Connected to database")
     yield
-
 
 app = FastAPI(
     title="Aquesa Launch App Apis",
